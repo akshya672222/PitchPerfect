@@ -161,6 +161,12 @@ extension ChangeVoiceViewController: AVAudioPlayerDelegate {
         }
     }
     
+    func setPlayButtonsImages() {
+        for button in btnVoiceChange{
+            button.imageView?.contentMode = .scaleAspectFit
+        }
+    }
+    
     func showAlert(_ title: String, message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: Alerts.DismissAlert, style: .default, handler: nil))

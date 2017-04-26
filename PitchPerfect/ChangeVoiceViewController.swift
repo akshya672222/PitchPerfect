@@ -61,6 +61,7 @@ class ChangeVoiceViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         configureUI(.notPlaying)
+        setPlayButtonsImages()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
