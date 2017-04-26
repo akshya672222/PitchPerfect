@@ -43,10 +43,12 @@ class RecordSoundViewController: UIViewController, AVAudioRecorderDelegate {
     
     func audioRecorderDidFinishRecording(_ recorder: AVAudioRecorder, successfully flag: Bool) {
         if flag{
-            print("Finish recording")
             performSegue(withIdentifier: "stopRecording", sender: audioRecorder.url)
         }else{
-            print("ERROR IN RECORDING!!!")
+            let alert = UIAlertController(title: "Error", message: "ERROR IN RECORDING!!!", preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+            alert.addAction(okAction)
+            present(alert, animated: true, completion: nil)
         }
     }
     
