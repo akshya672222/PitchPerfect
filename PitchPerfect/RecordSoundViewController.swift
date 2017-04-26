@@ -40,13 +40,7 @@ class RecordSoundViewController: UIViewController, AVAudioRecorderDelegate {
         audioRecorder.isMeteringEnabled = true
         audioRecorder.prepareToRecord()
         audioRecorder.record()
-        
-//        do{
-//            audioRecorder = try AVAudioRecorder(url: filePath!, settings: [:])
-//        }catch{
-//            
-//        }
-        
+                
     }
     
     func audioRecorderDidFinishRecording(_ recorder: AVAudioRecorder, successfully flag: Bool) {
