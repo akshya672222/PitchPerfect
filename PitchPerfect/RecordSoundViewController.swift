@@ -78,5 +78,10 @@ class RecordSoundViewController: UIViewController, AVAudioRecorderDelegate {
         stopRecordingButton.isEnabled = false
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.navigationBar.accessibilityIdentifier = NSStringFromClass(RecordSoundViewController.self).components(separatedBy: ".").last!
+    }
+    
 }
 

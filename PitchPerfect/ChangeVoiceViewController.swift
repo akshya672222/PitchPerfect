@@ -62,6 +62,7 @@ class ChangeVoiceViewController: UIViewController {
         super.viewWillAppear(animated)
         configureUI(.notPlaying)
         setPlayButtonsImages()
+        self.navigationController?.navigationBar.accessibilityIdentifier = NSStringFromClass(ChangeVoiceViewController.self).components(separatedBy: ".").last!
     }
     
     override func viewWillDisappear(_ animated: Bool) {

@@ -28,6 +28,57 @@ class PitchPerfectUITests: XCTestCase {
         super.tearDown()
     }
     
+    func testRecording() {
+        XCUIDevice.shared().orientation = .portrait
+        
+        let app = XCUIApplication()
+        
+        XCTAssert(app.staticTexts["Tap to Record"].exists)
+        app.buttons["Record"].tap()
+        XCTAssert(app.staticTexts["Recording in Progress"].exists)
+        app.buttons["Stop"].tap()
+        app.navigationBars["ChangeVoiceViewController"].children(matching: .button).matching(identifier: "Back").element(boundBy: 0).tap()
+        XCTAssert(app.staticTexts["Tap to Record"].exists)
+
+    }
+    
+    func testButtonStatesAndNavigation() {
+        XCUIDevice.shared().orientation = .portrait
+        
+        let app = XCUIApplication()
+        
+        
+        let recordButton = app.buttons["Record"]
+        let stopButton = app.buttons["Stop"]
+        XCTAssert(recordButton.isEnabled, "Enabled")
+        XCTAssert(!stopButton.isEnabled, "Disabled")
+        recordButton.tap()
+        XCTAssert(!recordButton.isEnabled, "Disabled")
+        XCTAssert(stopButton.isEnabled, "Enabled")
+        XCTAssertEqual(app.navigationBars.element.identifier, "RecordSoundViewController")
+        stopButton.tap()
+        XCTAssertEqual(app.navigationBars.element.identifier, "ChangeVoiceViewController")
+        XCTAssert(recordButton.isEnabled, "Enabled")
+        app.navigationBars["ChangeVoiceViewController"].children(matching: .button).matching(identifier: "Back").element(boundBy: 0).tap()
+        XCTAssertEqual(app.navigationBars.element.identifier, "RecordSoundViewController")
+
+    }
+    
+    func testOrientation() {
+        XCUIDevice.shared().orientation = .portrait
+        let element = XCUIApplication().otherElements.containing(.navigationBar, identifier:"RecordSoundViewController").children(matching: .other).element.children(matching: .other).element.children(matching: .other).element
+        element.tap()
+        XCTAssert(UIInterfaceOrientationIsPortrait(UIApplication.shared.statusBarOrientation), "Test failed")
+
+        XCUIDevice.shared().orientation = .portraitUpsideDown
+        element.tap()
+        XCTAssert(UIInterfaceOrientationIsPortrait(UIApplication.shared.statusBarOrientation), "Test failed")
+
+        XCUIDevice.shared().orientation = .portrait
+        element.tap()
+        XCTAssert(UIInterfaceOrientationIsPortrait(UIApplication.shared.statusBarOrientation), "Test failed")
+    }
+    
     func testExample() {
         // Use recording to get started writing UI tests.
         // Use XCTAssert and related functions to verify your tests produce the correct results.
