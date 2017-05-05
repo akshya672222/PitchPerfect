@@ -56,6 +56,7 @@ class ChangeVoiceViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupAudio()
+        stopButton.accessibilityIdentifier = "Stop2"
     }
     
     override func viewWillAppear(_ animated: Bool) {

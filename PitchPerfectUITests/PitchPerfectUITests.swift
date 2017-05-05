@@ -36,32 +36,54 @@ class PitchPerfectUITests: XCTestCase {
         XCTAssert(app.staticTexts["Tap to Record"].exists)
         app.buttons["Record"].tap()
         XCTAssert(app.staticTexts["Recording in Progress"].exists)
-        app.buttons["Stop"].tap()
+        app.buttons["Stop1"].tap()
         app.navigationBars["ChangeVoiceViewController"].children(matching: .button).matching(identifier: "Back").element(boundBy: 0).tap()
         XCTAssert(app.staticTexts["Tap to Record"].exists)
 
     }
     
-    func testButtonStatesAndNavigation() {
+    func testButtonState_ChangeVoiceViewController(){
         XCUIDevice.shared().orientation = .portrait
         
         let app = XCUIApplication()
+        app.buttons["Record"].tap()
+        app.buttons["Stop1"].tap()
+        XCTAssert(app.buttons["Echo"].isEnabled, "Disabled")
+        XCTAssert(!app.buttons["Stop2"].isEnabled, "Enabled")
+        app.buttons["Echo"].tap()
+        XCTAssert(!app.buttons["Echo"].isEnabled, "Enabled")
+        XCTAssert(app.buttons["Stop2"].isEnabled, "Disabled")
+        app.buttons["Stop2"].tap()
+        XCTAssert(app.buttons["Echo"].isEnabled, "Disabled")
+        XCTAssert(!app.buttons["Stop2"].isEnabled, "Enabled")
         
-        
+    }
+    
+    func testNavigation(){
+        XCUIDevice.shared().orientation = .portrait
+        let app = XCUIApplication()
         let recordButton = app.buttons["Record"]
-        let stopButton = app.buttons["Stop"]
+        let stopButton = app.buttons["Stop1"]
+        recordButton.tap()
+        XCTAssertEqual(app.navigationBars.element.identifier, "RecordSoundViewController")
+        stopButton.tap()
+        XCTAssertEqual(app.navigationBars.element.identifier, "ChangeVoiceViewController")
+        app.navigationBars["ChangeVoiceViewController"].children(matching: .button).matching(identifier: "Back").element(boundBy: 0).tap()
+        XCTAssertEqual(app.navigationBars.element.identifier, "RecordSoundViewController")
+    }
+    
+    func testButtonStates() {
+        XCUIDevice.shared().orientation = .portrait
+        let app = XCUIApplication()
+        let recordButton = app.buttons["Record"]
+        let stopButton = app.buttons["Stop1"]
         XCTAssert(recordButton.isEnabled, "Enabled")
         XCTAssert(!stopButton.isEnabled, "Disabled")
         recordButton.tap()
         XCTAssert(!recordButton.isEnabled, "Disabled")
         XCTAssert(stopButton.isEnabled, "Enabled")
-        XCTAssertEqual(app.navigationBars.element.identifier, "RecordSoundViewController")
         stopButton.tap()
-        XCTAssertEqual(app.navigationBars.element.identifier, "ChangeVoiceViewController")
         XCTAssert(recordButton.isEnabled, "Enabled")
-        app.navigationBars["ChangeVoiceViewController"].children(matching: .button).matching(identifier: "Back").element(boundBy: 0).tap()
-        XCTAssertEqual(app.navigationBars.element.identifier, "RecordSoundViewController")
-
     }
     
     func testOrientation() {
